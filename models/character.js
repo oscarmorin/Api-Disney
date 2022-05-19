@@ -20,7 +20,11 @@ const CharacterSchema = Schema({
     history: {
         type: String,
         required: [true, 'The history is required']
-    }
+    },
+    status: {
+        type: Boolean,
+        default: true
+    } 
 });
 
 module.exports = model( 'Character', CharacterSchema );
