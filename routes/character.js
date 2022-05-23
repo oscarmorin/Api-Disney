@@ -2,14 +2,17 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validateInputs } = require('../middlewares/validateInputs');
-const { getCharacter, createCharacter, putCharacter, deleteCharacter } = require('../controllers/character');
 const { validateJWT } = require('../middlewares/validateJWT');
-const { validateCharacterId } = require('../helpers/validateID')
+const { getCharacter, getListCharacter, createCharacter, putCharacter, deleteCharacter } = require('../controllers/character');
+const { validateIdMovies, validateIdCharacter } = require('../helpers/validateID');
 
 const router = Router();
 
-//ObtenerPeronajes
-router.get('/', getCharacter );
+//ObtenerListaPeronajes
+router.get('/', getListCharacter );
+
+//ObtenerPeronajesFull
+router.get('/detalle', getCharacter );
 
 //CrearPeronajes
 router.post('/', [
@@ -19,6 +22,7 @@ router.post('/', [
     check('age', 'The age is required').not().isEmpty(),
     check('weight', 'The weight is required').not().isEmpty(),
     check('history', 'The history is required').not().isEmpty(),
+    check('movies').custom( validateIdMovies ),
     validateInputs,
   ] , createCharacter );
 
@@ -26,7 +30,7 @@ router.post('/', [
   router.put('/:id', [
       validateJWT,
       check('name', 'The name is required').not().isEmpty(),
-      check('id').custom( validateCharacterId ),
+      check('id').custom( validateIdCharacter ),
       validateInputs
   ], putCharacter );
 
@@ -34,7 +38,7 @@ router.post('/', [
 router.delete('/:id', [
       validateJWT,
       check('name', 'The name is required').not().isEmpty(),
-      check('id').custom( validateCharacterId ),
+      check('id').custom( validateIdCharacter ),
       validateInputs
   ], deleteCharacter );
 

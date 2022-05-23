@@ -1,7 +1,6 @@
 const { response, request } = require('express');
 
-const MovieSerie = require('../models/movieSeries');
-const Genre = require('../models/genre');
+const { Genre, MovieSerie} = require('../models/index');
 
 //ObtenerGenero
 const getGenre= async (req = request , res = response) => {

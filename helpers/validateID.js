@@ -1,34 +1,46 @@
 
-const Character = require('../models/character');
+const { Character, MovieSerie, Genre} = require('../models/index');
 
-//Validar id de categorias
-const validarId = async ( id ) => {
+//Validar id personaje
+const validateIdCharacter = async ( id ) => {
 
-    const existeCategoriaId = await Categoria.findById(id);
+    if ( id !== '' ){
+        const existCharacter = await Character.findById(id);
 
-    if ( !existeCategoriaId ) {
-        throw new Error (`El ID: ${ id } no esta asociado a ninguna categoría`);
-    }
-
+        if ( !existCharacter) {
+            throw new Error (`The ID( Character ): ${ id } not exist`)
+        }    
+    }  
 }
 
-//Validar id de productos
-const validateCharacterId = async ( id ) => {
+//Validar id pelicula
+const validateIdMovies = async ( id = '') => {
 
-    const existsCharacterId = await Character.findById(id);
+    if ( id !== '' ){
 
-    if ( !existsCharacterId ) {
-        throw new Error (`The ID: ${ id } is not valid`);
-    }
+        const existMovie = await MovieSerie.findById(id);
 
+        if ( !existMovie ) {
+            throw new Error (`The ID( Movie ): ${ id } not exist`)
+        }
+    }   
 }
 
-const validateMovieSeriesId = async () => {
+//Validar id genero
+const validateIdGenre = async ( id ) => {
 
+    if ( id !== '' ){
+
+        const existGenre = await Genre.findById(id);
+
+        if ( !existGenre ) {
+            throw new Error (`The ID( Genre ): ${ id } not exist`)
+        }   
+    } 
 }
 
 module.exports = { 
-    validarId, 
-    validateCharacterId,
-    validateMovieSeriesId 
+    validateIdMovies,
+    validateIdCharacter,
+    validateIdGenre
 };

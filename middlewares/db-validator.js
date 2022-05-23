@@ -1,5 +1,4 @@
-const  Role  = require('../models/role');
-const User = require('../models/user');
+const { User, Role } = require('../models/index');
 
 const roleExists = async(role = '') => {
     const roleExists = await Role.findOne({ role });
@@ -17,18 +16,7 @@ const mailExists = async ( mail = '' ) => {
     }
 }
 
-//verificar si el usuario existe por id
-const existeUsuarioPorId = async ( id ) => {
-    
-    const existeUsuario = await Usuario.findById(id);
-
-    if ( !existeUsuario ) {
-        throw new Error (`El ID: ${ id } no existe`)
-    }
-}
-
 module.exports = {
     roleExists,
     mailExists,
-    existeUsuarioPorId
 }

@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { validateInputs } = require('../middlewares/validateInputs');
 const { getGenre, createGenre, putGenre, deleteGenre } = require('../controllers/genre');
 const { validateJWT } = require('../middlewares/validateJWT');
-const { validateMovieSeriesId } = require('../helpers/validateID');
+const { validateIdGenre} = require('../helpers/validateID');
 
 const router = Router();
 
@@ -14,6 +14,7 @@ router.post('/', [
     validateJWT,
     check('title', 'The title is required').not().isEmpty(),
     check('img', 'The picture is required').not().isEmpty(),
+    check('movies').custom(validateIdGenre),
     validateInputs,
 ] , createGenre );
 

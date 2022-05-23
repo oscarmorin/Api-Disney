@@ -1,9 +1,39 @@
 const { response, request } = require('express');
 
-const Character = require('../models/character');
-const MovieSerie = require('../models/movieSeries');
+const { Character, MovieSerie} = require('../models/index');
 
-//ObtenerProducto
+//ObtenerListaPersonaje
+const getListCharacter = async (req = request, res = response) => {
+
+  const { limite = 5, desde = 0 } = req.query;
+  const query = { status: true };
+
+  const [ total, character ] = await Promise.all([
+    Character.countDocuments(query),
+    Character.find(query)
+    .skip(Number( desde ))
+    .limit(Number( limite ))
+
+  ]);
+
+    let data = [];
+
+    character.forEach(e => {
+
+        data.push({
+          name: e.name,
+          img: e.img
+        });
+    
+    });
+
+  res.json({
+     total,
+     data
+  });
+}
+
+//ObtenerPersonajeFull
 const getCharacter = async (req = request, res = response) => {
 
     const { limite = 5, desde = 0 } = req.query;
@@ -23,7 +53,7 @@ const getCharacter = async (req = request, res = response) => {
     });
   }
 
-//CrearProducto
+//CrearPersonaje
 const createCharacter = async (req = request , res = response) => {
 
     //Obtener datos del body
@@ -63,7 +93,7 @@ const createCharacter = async (req = request , res = response) => {
     });
   }
 
-//ActualizarProducto
+//ActualizarPersonaje
 const putCharacter = async (req = request, res = response) => {
 
     const { id } = req.params;
@@ -78,12 +108,12 @@ const putCharacter = async (req = request, res = response) => {
 
 }
 
-//BorrarProducto - status: False
+//BorrarPersonaje - status: False
 const deleteCharacter = async (req = request, res = response) => {
 
     const { id } = req.params;
 
-    //Cambiar estado de usuario
+    //Cambiar estado de personaje
     const character = await Character.findByIdAndUpdate(id, {estado: false }, { new: true } );
 
     res.json(character);
@@ -92,6 +122,7 @@ const deleteCharacter = async (req = request, res = response) => {
 
   module.exports = {
     getCharacter,
+    getListCharacter,
     createCharacter,
     putCharacter,
     deleteCharacter

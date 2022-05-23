@@ -23,6 +23,38 @@ const getMovieSeries = async (req = request, res = response) => {
     });
   }
 
+//ObtenerMovieSeries
+const getListMovieSeries = async (req = request, res = response) => {
+
+  const { limite = 5, desde = 0 } = req.query;
+  const query = { status: true };
+
+  const [ total, movieSeries ] = await Promise.all([
+    MovieSerie.countDocuments(query),
+    MovieSerie.find(query)
+    .skip(Number( desde ))
+    .limit(Number( limite ))
+
+  ]);
+
+  let data = [];
+
+    movieSeries.forEach(e => {
+
+        data.push({
+          title: e.title,
+          img: e.img,
+          premiere: e.premiere
+        });
+    
+    });
+
+  res.json({
+     total,
+     data
+  });
+}
+
 //CrearMovieSeries
 const createMovieSeries = async (req = request , res = response) => {
 
@@ -60,7 +92,7 @@ const createMovieSeries = async (req = request , res = response) => {
     res.json({
         movieSeries
     });
-  }
+}
 
 //ActualizarMovieSeries
 const putMovieSeries = async (req = request, res = response) => {
@@ -91,6 +123,7 @@ const deleteMovieSeries = async (req = request, res = response) => {
 
   module.exports = {
     getMovieSeries,
+    getListMovieSeries,
     createMovieSeries,
     putMovieSeries,
     deleteMovieSeries
