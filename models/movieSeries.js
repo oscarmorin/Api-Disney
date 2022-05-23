@@ -16,7 +16,15 @@ const MovieSeriesSchema = Schema({
     score: {
         type: Number,
         required: [true, 'The age is required'],
-    }
+    },
+    character: {
+        type: Schema.Types.ObjectId,
+        ref: 'Character'
+    },
+    genre: {
+        type: Schema.Types.ObjectId,
+        ref: 'Genre'
+    } 
 });
 
 module.exports = model( 'MovieSerie', MovieSeriesSchema );

@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 
 const Character = require('../models/character');
+const MovieSerie = require('../models/movieSeries');
 
 //ObtenerProducto
 const getCharacter = async (req = request, res = response) => {
@@ -26,7 +27,7 @@ const getCharacter = async (req = request, res = response) => {
 const createCharacter = async (req = request , res = response) => {
 
     //Obtener datos del body
-    const { img, name, age, weight, history  } = req.body;
+    const { ...body } = req.body;
 
     //Verificar si existe el personaje
     const characterDB = await Character.findOne({ name: req.body.name });
@@ -37,8 +38,22 @@ const createCharacter = async (req = request , res = response) => {
         });
     }
 
-    //Crear el personaje
-    const character = new Character({ img, name, age, weight, history });
+    let moviesDB = await MovieSerie.findOne({ title: req.body.movies});
+
+    if (!moviesDB) {
+
+      //Crear el personaje sin pelicula relacionada
+       character = new Character({ ...body });
+
+    } else {
+
+      //Crear el personaje con pelicula relacionada
+      character = new Character({ 
+          ...body,
+          movies: moviesDB._id
+      });
+
+    } 
 
     //Guardar en BD
     await character.save();

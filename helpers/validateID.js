@@ -23,7 +23,12 @@ const validateCharacterId = async ( id ) => {
 
 }
 
+const validateMovieSeriesId = async () => {
+
+}
+
 module.exports = { 
     validarId, 
-    validateCharacterId 
+    validateCharacterId,
+    validateMovieSeriesId 
 };

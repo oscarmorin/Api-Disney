@@ -24,6 +24,10 @@ const CharacterSchema = Schema({
     status: {
         type: Boolean,
         default: true
+    },
+    movies: {
+        type: Schema.Types.ObjectId,
+        ref: 'MovieSerie'
     } 
 });
 

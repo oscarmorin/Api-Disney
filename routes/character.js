@@ -8,8 +8,10 @@ const { validateCharacterId } = require('../helpers/validateID')
 
 const router = Router();
 
+//ObtenerPeronajes
 router.get('/', getCharacter );
 
+//CrearPeronajes
 router.post('/', [
     validateJWT,
     check('img', 'The picture is required').not().isEmpty(),
@@ -20,6 +22,7 @@ router.post('/', [
     validateInputs,
   ] , createCharacter );
 
+  //ActualizarPeronajes
   router.put('/:id', [
       validateJWT,
       check('name', 'The name is required').not().isEmpty(),
@@ -27,7 +30,8 @@ router.post('/', [
       validateInputs
   ], putCharacter );
 
-  router.delete('/:id', [
+//Peronajes
+router.delete('/:id', [
       validateJWT,
       check('name', 'The name is required').not().isEmpty(),
       check('id').custom( validateCharacterId ),
