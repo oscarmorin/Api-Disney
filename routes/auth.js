@@ -17,7 +17,7 @@ router.post('/login',[
 router.post('/register', [
     check('name', 'The name is required').not().isEmpty(),
     check('password', 'The password is more be 6 character').isLength({ min: 6 }),
-    check('correo', 'El correo no es válido').isEmail(),
+    check('mail', 'El correo no es válido').isEmail(),
     check('mail').custom( mailExists ),
     //check('rol', 'No es un rol permitido').isIn('ADMIN_ROLE','USER_ROLE'),
     check('role').custom( roleExists ),

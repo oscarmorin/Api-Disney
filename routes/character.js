@@ -34,7 +34,7 @@ router.post('/', [
       validateInputs
   ], putCharacter );
 
-//Peronajes
+//DeletePeronajes
 router.delete('/:id', [
       validateJWT,
       check('name', 'The name is required').not().isEmpty(),
